@@ -47,13 +47,17 @@ ifeq ($(strip $(TARGET_ARCH)),arm)
     LOCAL_SRC_FILES += \
         jsimd_arm_neon.S \
         jsimd_neon.c \
-	jidctfst_neon.S \
-	jidctred_neon.S
+        jidctfst_neon.S \
+        jidctred_neon.S
   else
     # enable armv6 idct assembly
     LOCAL_CFLAGS += -DANDROID_ARMV6_IDCT
     LOCAL_SRC_FILES += jidctfst.c jidctred.c
   endif
+endif
+
+ifeq ($(strip $(TARGET_ARCH)),arm64)
+  LOCAL_SRC_FILES += jidctfst.c jidctred.c
 endif
 
 # use mips assembler IDCT implementation if MIPS DSP-ASE is present
@@ -64,7 +68,7 @@ ifeq ($(strip $(TARGET_ARCH)),mips)
       mips_jidctfst.c \
       mips_idct_le.S
   endif
- LOCAL_SRC_FILES += jidctfst.c jidctred.c
+  LOCAL_SRC_FILES += jidctfst.c jidctred.c
 endif
 
 LOCAL_MODULE := libjpeg_static
